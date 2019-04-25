@@ -1,1 +1,1 @@
-# socialquotes2
+# Social Quotes
