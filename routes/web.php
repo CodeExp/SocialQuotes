@@ -21,9 +21,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 //Citations --> QuoteController
 Route::get('/citations', 'QuoteController@afficherTous');
 
-Route::post('/citation/{n}', 'QuoteController@afficher');
-
 Route::get('/citation/ajouter', 'QuoteController@ajouter');
+Route::post('/citation/ajouter', 'QuoteController@ajouter');
+
+Route::get('/citation/{n}', 'QuoteController@afficher');
 
 Route::get('/citation/{n}/supprimer', 'QuoteController@supprimer');
 

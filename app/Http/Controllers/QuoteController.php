@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Quote;
 use App\User;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
@@ -41,31 +42,50 @@ class QuoteController extends Controller
 	
     public function ajouter(Request $request)
 	{
-        $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials)) {
+        if ( Auth::check() ) {
 			
-			$quote = new Quote;
-			$quote->content = $request->input('quote');
-			$quote->save();
-	
-			return view('ajouter');
+			if ( $request->input('quote') !== null ) {
+
+				$quote = new Quote;
+				$quote->content = $request->input('quote');
+				$quote->user_id = Auth::id();
+				$quote->save();
+				
+				$message = 'Votre citation a bien été ajouté !';
+
+				return view('ajouter')->with('message', $message);
+
+			} else {
+				
+				return view('ajouter')->with('message', '');
+				
+			}
+
+			return redirect('/');
 			
         }
 	}
 	
     public function supprimer(int $n)
 	{
-		$quote = Quote::find($n);
-		return view('supprimer');
+		
+        if ( Auth::check() ) {
+			
+			$quote = Quote::find($n);
+			return view('supprimer');
+		}
 	}
 	
     public function modifier(int $n)
 	{
-		$quote = Quote::find($n);
-		$quote->content = $request->input('quote');
-		//updated_at
-		return view('modifier')->with('quote', $quote);
+        if ( Auth::check() ) {
+			
+			$quote = Quote::find($n);
+			$quote->content = $request->input('quote');
+			//updated_at
+			return view('modifier')->with('quote', $quote);
+
+		}
 	}
 	
     public function afficherUser(int $n)
