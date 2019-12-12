@@ -26,7 +26,7 @@ class QuoteController extends Controller
     public function index()
 	{
 		$quotes = DB::table('quotes')->orderBy('created_at', 'desc')->take(20)->get();
-		return view('index')->with('quotes', $quotes);
+		return view('index', ['quotes' => $quotes]);
 	}
 	
     public function afficherTous()
@@ -88,10 +88,10 @@ class QuoteController extends Controller
 		}
 	}
 	
-    public function afficherUser(int $n)
+    public function afficherUser(int $id)
 	{
-		$user = User::find($n);
+		$user = User::find($id);
 
-		return view('afficherUser')->with('user', $user);
+		return view('afficherUser', ['user' => $user]);
 	}
 }

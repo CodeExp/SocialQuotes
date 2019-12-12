@@ -19,7 +19,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 //Citations --> QuoteController
-Route::get('/citations', 'QuoteController@afficherTous');
+//Route::get('/citations', 'QuoteController@afficherTous');
 
 Route::get('/citation/ajouter', 'QuoteController@ajouter');
 Route::post('/citation/ajouter', 'QuoteController@ajouter');
@@ -31,4 +31,8 @@ Route::get('/citation/{n}/supprimer', 'QuoteController@supprimer');
 Route::get('/citation/{n}/modifier', 'QuoteController@modifier');
 
 //Utilisateur -> User
-Route::get('/utilisateur/{n}', 'QuoteController@afficherUser');
+Route::get('/utilisateur/{id}', 'QuoteController@afficherUser')->where('id', '[0-9]+');
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});
